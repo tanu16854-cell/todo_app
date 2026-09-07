@@ -15,6 +15,8 @@ if (savedTasks) {
     savedTaskItems.forEach(function(li) {
 const deleteBtn = li.querySelector(".deleteBtn");
 const taskSpan = li.querySelector("span");
+const editBtn = li.querySelector(".editBtn");
+
 taskSpan.addEventListener("click", function() {
 taskSpan.classList.toggle("completed");
 localStorage.setItem("tasks", taskList.innerHTML);
@@ -48,7 +50,20 @@ taskInput.value = "";
 const deleteBtn = document.createElement("button");
 deleteBtn.classList.add("deleteBtn");
 deleteBtn.textContent = "Delete";
+const editBtn = document.createElement("button");
+
+editBtn.classList.add("editBtn");
+
+editBtn.textContent = "Edit";
 li.appendChild(deleteBtn);
+li.appendChild(editBtn);
+editBtn.addEventListener("click", function() {
+const currentText = taskSpan.textContent;
+const newText = prompt("Edit your task:", currentText);
+if (newText !== null) {
+taskSpan.textContent = newText;
+}
+});
 deleteBtn.addEventListener("click", function() {
     li.remove();
     localStorage.setItem("tasks", taskList.innerHTML);
