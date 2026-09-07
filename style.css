@@ -58,3 +58,7 @@ margin-top: 25px;
     border-radius: 5px;
     cursor: pointer;
 }
+.completed {
+    text-decoration: line-through;
+    opacity: 0.5;
+}

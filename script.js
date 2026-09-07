@@ -8,7 +8,20 @@ if (taskText === "") {
     return;
 }
 const li = document.createElement("li");
-li.textContent = taskText;
+taskSpan.textContent = taskText;
+
 taskList.appendChild(li);
 taskInput.value = "";
+
+const deleteBtn = document.createElement("button");
+deleteBtn.textContent = "Delete";
+li.appendChild(deleteBtn);
+deleteBtn.addEventListener("click", function() {
+    li.remove();
+});
+const taskSpan = document.createElement("span");
+li.appendChild(taskSpan);
+taskSpan.addEventListener("click", function() {
+    taskSpan.classList.toggle("completed");
+});
 }
