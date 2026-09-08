@@ -16,6 +16,21 @@ if (savedTasks) {
 const deleteBtn = li.querySelector(".deleteBtn");
 const taskSpan = li.querySelector("span");
 const editBtn = li.querySelector(".editBtn");
+editBtn.addEventListener("click", function() {
+
+    const currentText = taskSpan.textContent;
+
+    const newText = prompt("Edit your task:", currentText);
+
+    if (newText !== null && newText.trim() !== "") {
+
+        taskSpan.textContent = newText.trim();
+
+        localStorage.setItem("tasks", taskList.innerHTML);
+
+    }
+
+});
 
 taskSpan.addEventListener("click", function() {
 taskSpan.classList.toggle("completed");
