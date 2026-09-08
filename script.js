@@ -62,6 +62,7 @@ const currentText = taskSpan.textContent;
 const newText = prompt("Edit your task:", currentText);
 if (newText !== null) {
 taskSpan.textContent = newText;
+localStorage.setItem("tasks", taskList.innerHTML);
 }
 });
 deleteBtn.addEventListener("click", function() {
