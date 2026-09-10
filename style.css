@@ -1,7 +1,7 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #f4f4f4;
+    background: #4e4c4c;
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -10,11 +10,16 @@ body {
 }
 .container {
     width: 500px;
-    background: white;
+    background: rgb(255, 255, 255);
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
     
+}
+h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 32px;
 }
 .input-box {
     display: flex;
@@ -23,14 +28,14 @@ body {
 #taskInput{
     flex: 1;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #728e9c;
     border-radius: 5px;
     font-size: 16px;
 }
 #addBtn {
 padding: 10px 15px;
 border: none;
-background: #333;
+background: #333333;
 color: white;
 border-radius: 5px;
 cursor: pointer;
@@ -38,18 +43,20 @@ cursor: pointer;
 #taskList {
 list-style: none;
 margin-top: 25px;
+padding: 0;
 }
 .task{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
+    padding: 12px;
     gap: 15px;
     border-bottom: 1px solid #ccc;
 }
 .task span{
     cursor: pointer;
     flex: 1;
+    font-size: 16px;
 }
 .deleteBtn {
     background: red;
@@ -61,5 +68,19 @@ margin-top: 25px;
 }
 .completed {
     text-decoration: line-through;
+    color: #4a4747;
     opacity: 0.5;
+}
+#taskInput:focus {
+    outline: none;
+    border-color: rgb(43, 107, 226);
+}
+#addBtn:hover {
+    background: #596ea9;
+    
+}
+.editBtn {
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
 }
