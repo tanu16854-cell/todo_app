@@ -59,14 +59,23 @@ if (savedTasks) {
 
 function updateTaskCount() {
 
-    const totalTasks = taskList.children.length;
+    const totalTasks = taskList.querySelectorAll(".task").length;
 
     taskCount.textContent = "Total Tasks: " + totalTasks;
+
+    if (totalTasks === 0) {
+        taskList.innerHTML =
+            "<li class='empty-message'>📝 No tasks yet. Add your first task!</li>";
+    }
 }
 
 function addTask() {
 
     const taskText = taskInput.value.trim();
+
+    if (taskList.querySelector(".empty-message")) {
+        taskList.innerHTML = "";
+    }
 
     if (taskText === "") {
         return;
@@ -94,12 +103,10 @@ function addTask() {
 
     editBtn.textContent = "Edit";
 
-
     // Task text, then Delete, then Edit
     li.appendChild(taskSpan);
     li.appendChild(deleteBtn);
     li.appendChild(editBtn);
-
 
     editBtn.addEventListener("click", function() {
 
@@ -115,7 +122,6 @@ function addTask() {
         }
     });
 
-
     deleteBtn.addEventListener("click", function() {
 
         li.remove();
@@ -125,14 +131,12 @@ function addTask() {
         updateTaskCount();
     });
 
-
     taskSpan.addEventListener("click", function() {
 
         taskSpan.classList.toggle("completed");
 
         localStorage.setItem("tasks", taskList.innerHTML);
     });
-
 
     taskList.appendChild(li);
 

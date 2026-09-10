@@ -13,8 +13,8 @@ body {
     max-width: 500px;
     background: rgb(255, 255, 255);
     padding: 35px;
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-radius: 16px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
 }
 h1 {
     text-align: center;
@@ -55,11 +55,11 @@ padding: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px;
+    padding: 14px;
     gap: 12px;
     background: #f8fafc;
     border: 1px solid #e5e7eb;
-    border-radius: 6px;
+    border-radius: 10px;
     margin-bottom: 8px;
 }
 .task span {
@@ -67,6 +67,7 @@ padding: 0;
     flex: 1;
     font-size: 16px;
     color: #333;
+    line-height: 1.4;
 }
 .deleteBtn {
     background: none;
@@ -134,4 +135,10 @@ padding: 0;
 }
 .task:hover {
     background: #eef2f7;
+}
+.empty-message {
+    text-align: center;
+    color: #888;
+    font-size: 14px;
+    padding: 20px;
 }
