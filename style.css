@@ -21,6 +21,7 @@ h1 {
     margin-bottom: 25px;
     font-size: 30px;
     color: #333;
+    font-weight: 700;
 }
 .input-box {
     display: flex;
@@ -42,7 +43,7 @@ h1 {
     border-radius: 6px;
     cursor: pointer;
     font-size: 16px;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.2s ease;
 }
 #taskList {
 list-style: none;
@@ -56,6 +57,7 @@ padding: 0;
     padding: 12px;
     gap: 12px;
     background: #f8fafc;
+    border: 1px solid #e5e7eb;
     border-radius: 6px;
     margin-bottom: 8px;
 }
@@ -86,27 +88,36 @@ padding: 0;
 }
 #addBtn:hover {
     background: #596ea9;
+    transform: translateY(-1px);
 }
 .editBtn {
     border: none;
     padding: 7px 12px;
-    border-radius: 5px;
-    background: #e9eef5;
-    color: #333;
+    border-radius: 6px;
+    background: #e8f0fe;
+    color: #2b6be2;
     cursor: pointer;
-    transition: transform 0.2s ease;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.2s ease;
 }
 .editBtn:hover {
-    background-color: #d5dfeb;
+    background-color: #d7e5fd;
+    transform: translateY(-1px);
 }
 .deleteBtn:hover {
     color: #b33a3a;
 }
 #taskCount {
     text-align: right;
-    color: #666;
-    font-size: 14px;
+    color: #333;
+    font-size: 13px;
+    font-weight: 600;
+    background: #eef2f7;
+    padding: 6px 10px;
+    border-radius: 20px;
     margin-top: 15px;
+    display: inline-block;
+    float: right;
 }
 @media (max-width: 600px) {
     .container {
@@ -117,4 +128,7 @@ padding: 0;
     h1 {
         font-size: 26px;
     }
+}
+.task:hover {
+    background: #eef2f7;
 }
