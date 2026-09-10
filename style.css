@@ -1,7 +1,7 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #4e4c4c;
+    background: #eef2f7;
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -9,37 +9,40 @@ body {
 
 }
 .container {
-    width: 500px;
+    width: 90%;
+    max-width: 500px;
     background: rgb(255, 255, 255);
-    padding: 30px;
+    padding: 35px;
     border-radius: 12px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-    
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 h1 {
     text-align: center;
     margin-bottom: 25px;
-    font-size: 32px;
+    font-size: 30px;
+    color: #333;
 }
 .input-box {
     display: flex;
     gap: 10px;
 }
-#taskInput{
+#taskInput {
     flex: 1;
-    padding: 10px;
-    border: 1px solid #728e9c;
-    border-radius: 5px;
+    padding: 12px;
+    border: 1px solid #d0d5db;
+    border-radius: 6px;
     font-size: 16px;
+    box-sizing: border-box;
 }
 #addBtn {
-padding: 10px 15px;
-border: none;
-background: #333333;
-color: white;
-border-radius: 5px;
-cursor: pointer;
-transition: transform 0.2s ease;
+    padding: 12px 18px;
+    border: none;
+    background: #333333;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s ease;
 }
 #taskList {
 list-style: none;
@@ -51,10 +54,10 @@ padding: 0;
     justify-content: space-between;
     align-items: center;
     padding: 12px;
-    gap: 18px;
-    border-bottom: 1px solid #ccc;
-    background: #f7f7f7;
+    gap: 12px;
+    background: #f8fafc;
     border-radius: 6px;
+    margin-bottom: 8px;
 }
 .task span {
     cursor: pointer;
@@ -81,16 +84,12 @@ padding: 0;
     outline: none;
     border-color: rgb(43, 107, 226);
 }
-#addBtn:hover,
-#addBtn:active {
+#addBtn:hover {
     background: #596ea9;
-    transform: scale(.9);
-
-    
 }
 .editBtn {
     border: none;
-    padding: 5px 10px;
+    padding: 7px 12px;
     border-radius: 5px;
     background: #e9eef5;
     color: #333;
@@ -98,9 +97,24 @@ padding: 0;
     transition: transform 0.2s ease;
 }
 .editBtn:hover {
-    background-color: #509af5;
+    background-color: #d5dfeb;
 }
-.deleteBtn:hover{
-    background-color: #b33a3a;
-    
+.deleteBtn:hover {
+    color: #b33a3a;
+}
+#taskCount {
+    text-align: right;
+    color: #666;
+    font-size: 14px;
+    margin-top: 15px;
+}
+@media (max-width: 600px) {
+    .container {
+        width: 90%;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
 }
