@@ -33,6 +33,7 @@ h1 {
     border: 1px solid #d0d5db;
     border-radius: 6px;
     font-size: 16px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
     box-sizing: border-box;
 }
 #addBtn {
@@ -85,6 +86,7 @@ padding: 0;
 #taskInput:focus {
     outline: none;
     border-color: rgb(43, 107, 226);
+    box-shadow: 0 0 0 3px rgba(43, 107, 226, 0.1);
 }
 #addBtn:hover {
     background: #596ea9;
@@ -106,6 +108,7 @@ padding: 0;
 }
 .deleteBtn:hover {
     color: #b33a3a;
+    transform: scale(1.15);
 }
 #taskCount {
     text-align: right;
