@@ -46,18 +46,21 @@ list-style: none;
 margin-top: 25px;
 padding: 0;
 }
-.task{
+.task {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 12px;
     gap: 18px;
     border-bottom: 1px solid #ccc;
+    background: #f7f7f7;
+    border-radius: 6px;
 }
-.task span{
+.task span {
     cursor: pointer;
     flex: 1;
     font-size: 16px;
+    color: #333;
 }
 .deleteBtn {
     background: none;
@@ -67,6 +70,7 @@ padding: 0;
     font-size: 24px;
     font-weight: bold;
     cursor: pointer;
+    transition: transform 0.2s ease;
 }
 .completed {
     text-decoration: line-through;
@@ -88,14 +92,15 @@ padding: 0;
     border: none;
     padding: 5px 10px;
     border-radius: 5px;
+    background: #e9eef5;
+    color: #333;
+    cursor: pointer;
     transition: transform 0.2s ease;
-   
 }
-.editBtn:hover,
-.editBtn:active {
-    transform: scale(1.2);
-     background-color: #6a96cb;
+.editBtn:hover {
+    background-color: #509af5;
 }
 .deleteBtn:hover{
     background-color: #b33a3a;
+    
 }
