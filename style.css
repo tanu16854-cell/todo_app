@@ -39,6 +39,7 @@ background: #333333;
 color: white;
 border-radius: 5px;
 cursor: pointer;
+transition: transform 0.2s ease;
 }
 #taskList {
 list-style: none;
@@ -59,11 +60,12 @@ padding: 0;
     font-size: 16px;
 }
 .deleteBtn {
-    background: red;
-    color: white;
+    background: none;
+    color: red;
     border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
+    padding: 0;
+    font-size: 24px;
+    font-weight: bold;
     cursor: pointer;
 }
 .completed {
@@ -75,12 +77,25 @@ padding: 0;
     outline: none;
     border-color: rgb(43, 107, 226);
 }
-#addBtn:hover {
+#addBtn:hover,
+#addBtn:active {
     background: #596ea9;
+    transform: scale(.9);
+
     
 }
 .editBtn {
     border: none;
     padding: 5px 10px;
     border-radius: 5px;
+    transition: transform 0.2s ease;
+   
+}
+.editBtn:hover,
+.editBtn:active {
+    transform: scale(1.2);
+     background-color: #6a96cb;
+}
+.deleteBtn:hover{
+    background-color: #b33a3a;
 }
