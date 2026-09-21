@@ -11,50 +11,157 @@ taskInput.addEventListener("keydown", function(event) {
     }
 });
 
-const savedTasks = localStorage.getItem("tasks");
+function loadTasks() {
 
-if (savedTasks) {
-    taskList.innerHTML = savedTasks;
+    fetch("http://localhost:3000/api/todos")
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(tasks) {
 
-    const savedTaskItems = taskList.querySelectorAll(".task");
+            console.log(tasks);
 
-    savedTaskItems.forEach(function(li) {
+            taskList.innerHTML = "";
 
-        const taskSpan = li.querySelector("span");
-        const deleteBtn = li.querySelector(".deleteBtn");
-        const editBtn = li.querySelector(".editBtn");
+            tasks.forEach(function(todo) {
 
-        editBtn.addEventListener("click", function() {
+                const li = document.createElement("li");
 
-            const currentText = taskSpan.textContent;
-            const newText = prompt("Edit your task:", currentText);
+                li.classList.add("task");
 
-            if (newText !== null && newText.trim() !== "") {
+                li.dataset.id = todo.id;
 
-                taskSpan.textContent = newText.trim();
+                const taskSpan = document.createElement("span");
 
-                localStorage.setItem("tasks", taskList.innerHTML);
-            }
-        });
+                taskSpan.textContent = todo.task;
 
-        taskSpan.addEventListener("click", function() {
+                // Show completed status after refresh
+                if (todo.completed === 1) {
+                    taskSpan.classList.add("completed");
+                }
 
-            taskSpan.classList.toggle("completed");
+                const deleteBtn = document.createElement("button");
 
-            localStorage.setItem("tasks", taskList.innerHTML);
-        });
+                deleteBtn.classList.add("deleteBtn");
 
-        deleteBtn.addEventListener("click", function() {
+                deleteBtn.textContent = "×";
 
-            li.remove();
+                const editBtn = document.createElement("button");
 
-            localStorage.setItem("tasks", taskList.innerHTML);
+                editBtn.classList.add("editBtn");
+
+                editBtn.textContent = "Edit";
+
+                // Edit task
+                editBtn.addEventListener("click", function() {
+
+                    const currentText = taskSpan.textContent;
+
+                    const newText = prompt("Edit your task:", currentText);
+
+                    if (newText !== null && newText.trim() !== "") {
+
+                        fetch("http://localhost:3000/api/todos/" + todo.id, {
+                            method: "PUT",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                task: newText.trim(),
+                                completed: todo.completed
+                            })
+                        })
+                        .then(function(response) {
+                            return response.json();
+                        })
+                        .then(function(result) {
+
+                            console.log(result);
+
+                            taskSpan.textContent = newText.trim();
+                            todo.task = newText.trim();
+
+                        })
+                        .catch(function(error) {
+                            console.log("Error updating task:", error);
+                        });
+                    }
+
+                });
+
+                // Delete task
+                deleteBtn.addEventListener("click", function() {
+
+                    fetch("http://localhost:3000/api/todos/" + todo.id, {
+                        method: "DELETE"
+                    })
+                    .then(function(response) {
+                        return response.json();
+                    })
+                    .then(function(result) {
+
+                        console.log(result);
+
+                        li.remove();
+
+                        updateTaskCount();
+
+                    })
+                    .catch(function(error) {
+                        console.log("Error deleting task:", error);
+                    });
+
+                });
+
+                // Complete / Uncomplete task
+                taskSpan.addEventListener("click", function() {
+
+                    const newCompleted = todo.completed === 0 ? 1 : 0;
+
+                    fetch("http://localhost:3000/api/todos/" + todo.id, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            task: todo.task,
+                            completed: newCompleted
+                        })
+                    })
+                    .then(function(response) {
+                        return response.json();
+                    })
+                    .then(function(result) {
+
+                        console.log(result);
+
+                        todo.completed = newCompleted;
+
+                        taskSpan.classList.toggle("completed");
+
+                    })
+                    .catch(function(error) {
+                        console.log("Error updating completed status:", error);
+                    });
+
+                });
+
+                li.appendChild(taskSpan);
+
+                li.appendChild(deleteBtn);
+
+                li.appendChild(editBtn);
+
+                taskList.appendChild(li);
+
+            });
 
             updateTaskCount();
-        });
-    });
 
-    updateTaskCount();
+        })
+        .catch(function(error) {
+            console.log("Error loading tasks:", error);
+        });
 }
 
 function updateTaskCount() {
@@ -64,8 +171,10 @@ function updateTaskCount() {
     taskCount.textContent = "Total Tasks: " + totalTasks;
 
     if (totalTasks === 0) {
+
         taskList.innerHTML =
             "<li class='empty-message'>📝 No tasks yet. Add your first task!</li>";
+
     }
 }
 
@@ -81,66 +190,158 @@ function addTask() {
         return;
     }
 
-    const li = document.createElement("li");
+    fetch("http://localhost:3000/api/todos", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            task: taskText
+        })
+    })
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(todo) {
 
-    li.classList.add("task");
+        console.log(todo);
 
-    const taskSpan = document.createElement("span");
+        const li = document.createElement("li");
 
-    taskSpan.textContent = taskText;
+        li.classList.add("task");
 
-    taskInput.value = "";
+        li.dataset.id = todo.id;
 
-    const deleteBtn = document.createElement("button");
+        const taskSpan = document.createElement("span");
 
-    deleteBtn.classList.add("deleteBtn");
+        taskSpan.textContent = todo.task;
 
-    deleteBtn.textContent = "×";
+        taskInput.value = "";
 
-    const editBtn = document.createElement("button");
+        const deleteBtn = document.createElement("button");
 
-    editBtn.classList.add("editBtn");
+        deleteBtn.classList.add("deleteBtn");
 
-    editBtn.textContent = "Edit";
+        deleteBtn.textContent = "×";
 
-    // Task text, then Delete, then Edit
-    li.appendChild(taskSpan);
-    li.appendChild(deleteBtn);
-    li.appendChild(editBtn);
+        const editBtn = document.createElement("button");
 
-    editBtn.addEventListener("click", function() {
+        editBtn.classList.add("editBtn");
 
-        const currentText = taskSpan.textContent;
+        editBtn.textContent = "Edit";
 
-        const newText = prompt("Edit your task:", currentText);
+        // Edit new task
+        editBtn.addEventListener("click", function() {
 
-        if (newText !== null && newText.trim() !== "") {
+            const currentText = taskSpan.textContent;
 
-            taskSpan.textContent = newText.trim();
+            const newText = prompt("Edit your task:", currentText);
 
-            localStorage.setItem("tasks", taskList.innerHTML);
-        }
-    });
+            if (newText !== null && newText.trim() !== "") {
 
-    deleteBtn.addEventListener("click", function() {
+                fetch("http://localhost:3000/api/todos/" + todo.id, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        task: newText.trim(),
+                        completed: todo.completed
+                    })
+                })
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(result) {
 
-        li.remove();
+                    console.log(result);
 
-        localStorage.setItem("tasks", taskList.innerHTML);
+                    taskSpan.textContent = newText.trim();
+
+                    todo.task = newText.trim();
+
+                })
+                .catch(function(error) {
+                    console.log("Error updating task:", error);
+                });
+
+            }
+
+        });
+
+        // Delete new task
+        deleteBtn.addEventListener("click", function() {
+
+            fetch("http://localhost:3000/api/todos/" + todo.id, {
+                method: "DELETE"
+            })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(result) {
+
+                console.log(result);
+
+                li.remove();
+
+                updateTaskCount();
+
+            })
+            .catch(function(error) {
+                console.log("Error deleting task:", error);
+            });
+
+        });
+
+        // Complete / Uncomplete new task
+        taskSpan.addEventListener("click", function() {
+
+            const newCompleted = todo.completed === 0 ? 1 : 0;
+
+            fetch("http://localhost:3000/api/todos/" + todo.id, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    task: todo.task,
+                    completed: newCompleted
+                })
+            })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(result) {
+
+                console.log(result);
+
+                todo.completed = newCompleted;
+
+                taskSpan.classList.toggle("completed");
+
+            })
+            .catch(function(error) {
+                console.log("Error updating completed status:", error);
+            });
+
+        });
+
+        li.appendChild(taskSpan);
+
+        li.appendChild(deleteBtn);
+
+        li.appendChild(editBtn);
+
+        taskList.appendChild(li);
 
         updateTaskCount();
+
+    })
+    .catch(function(error) {
+        console.log("Error adding task:", error);
     });
-
-    taskSpan.addEventListener("click", function() {
-
-        taskSpan.classList.toggle("completed");
-
-        localStorage.setItem("tasks", taskList.innerHTML);
-    });
-
-    taskList.appendChild(li);
-
-    localStorage.setItem("tasks", taskList.innerHTML);
-
-    updateTaskCount();
 }
+
+loadTasks();
+
+console.log("Frontend connected");
