@@ -2,18 +2,87 @@ const taskInput = document.getElementById("taskInput");
 const addBtn = document.getElementById("addBtn");
 const taskList = document.getElementById("taskList");
 const taskCount = document.getElementById("taskCount");
+const loginBtn = document.getElementById("loginBtn");
+const emailInput = document.getElementById("emailInput");
+const passwordInput = document.getElementById("passwordInput");
+const logoutBtn = document.getElementById("logoutBtn");
 
-addBtn.addEventListener("click", addTask);
+if (loginBtn) {
+    loginBtn.addEventListener("click", loginUser);
+}
+function loginUser() {
 
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+
+    if (email === "" || password === "") {
+        alert("Please enter email and password");
+        return;
+    }
+
+    fetch("http://localhost:3000/api/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            email: email,
+            password: password
+        })
+    })
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(data) {
+
+        console.log(data);
+
+        if (data.token) {
+
+            localStorage.setItem("token", data.token);
+
+            alert("Login successful");
+            window.location.href = "index.html";
+
+        } else {
+
+            alert(data.error);
+
+        }
+
+    })
+    .catch(function(error) {
+        console.log("Login error:", error);
+    });
+}
+if (addBtn) {
+    addBtn.addEventListener("click", addTask);
+}
+if (logoutBtn) {
+    logoutBtn.addEventListener("click", function() {
+
+        localStorage.removeItem("token");
+
+        window.location.href = "login.html";
+
+    });
+}
+if (taskInput) {
 taskInput.addEventListener("keydown", function(event) {
     if (event.key === "Enter") {
         addTask();
     }
+      
 });
+}
 
 function loadTasks() {
 
-    fetch("http://localhost:3000/api/todos")
+    fetch("http://localhost:3000/api/todos", {
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+    })
         .then(function(response) {
             return response.json();
         })
@@ -64,8 +133,9 @@ function loadTasks() {
                         fetch("http://localhost:3000/api/todos/" + todo.id, {
                             method: "PUT",
                             headers: {
-                                "Content-Type": "application/json"
-                            },
+                                   "Content-Type": "application/json",
+                                   "Authorization": "Bearer " + localStorage.getItem("token")
+                     },
                             body: JSON.stringify({
                                 task: newText.trim(),
                                 completed: todo.completed
@@ -93,8 +163,11 @@ function loadTasks() {
                 deleteBtn.addEventListener("click", function() {
 
                     fetch("http://localhost:3000/api/todos/" + todo.id, {
-                        method: "DELETE"
-                    })
+    method: "DELETE",
+    headers: {
+        "Authorization": "Bearer " + localStorage.getItem("token")
+    }
+})
                     .then(function(response) {
                         return response.json();
                     })
@@ -121,8 +194,9 @@ function loadTasks() {
                     fetch("http://localhost:3000/api/todos/" + todo.id, {
                         method: "PUT",
                         headers: {
-                            "Content-Type": "application/json"
-                        },
+    "Content-Type": "application/json",
+    "Authorization": "Bearer " + localStorage.getItem("token")
+},
                         body: JSON.stringify({
                             task: todo.task,
                             completed: newCompleted
@@ -191,10 +265,11 @@ function addTask() {
     }
 
     fetch("http://localhost:3000/api/todos", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("token")
+    },
         body: JSON.stringify({
             task: taskText
         })
@@ -242,8 +317,9 @@ function addTask() {
                 fetch("http://localhost:3000/api/todos/" + todo.id, {
                     method: "PUT",
                     headers: {
-                        "Content-Type": "application/json"
-                    },
+    "Content-Type": "application/json",
+    "Authorization": "Bearer " + localStorage.getItem("token")
+},
                     body: JSON.stringify({
                         task: newText.trim(),
                         completed: todo.completed
@@ -273,8 +349,11 @@ function addTask() {
         deleteBtn.addEventListener("click", function() {
 
             fetch("http://localhost:3000/api/todos/" + todo.id, {
-                method: "DELETE"
-            })
+    method: "DELETE",
+    headers: {
+        "Authorization": "Bearer " + localStorage.getItem("token")
+    }
+})
             .then(function(response) {
                 return response.json();
             })
@@ -301,8 +380,9 @@ function addTask() {
             fetch("http://localhost:3000/api/todos/" + todo.id, {
                 method: "PUT",
                 headers: {
-                    "Content-Type": "application/json"
-                },
+    "Content-Type": "application/json",
+    "Authorization": "Bearer " + localStorage.getItem("token")
+},
                 body: JSON.stringify({
                     task: todo.task,
                     completed: newCompleted
@@ -342,6 +422,8 @@ function addTask() {
     });
 }
 
-loadTasks();
+if (taskList) {
+    loadTasks();
+}
 
 console.log("Frontend connected");

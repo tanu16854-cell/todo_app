@@ -6,9 +6,23 @@
     <title>TODO App</title>
      <link rel="stylesheet" href="style.css">
 </head>
+<script>
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        window.location.href = "login.html";
+    }
+</script>
 <body>
-    <div class="container">
-    <h1>My TODO List </h1>
+    
+<div class="container">
+    <div class="todo-header">
+
+        <h1>My TODO List</h1>
+
+        <button id="logoutBtn">Logout</button>
+
+    </div>
     <input type="text" id="taskInput" placeholder = "Enter a task...">
     <button id = "addBtn" >Add task</button>
     <ul id ="taskList"></ul>
